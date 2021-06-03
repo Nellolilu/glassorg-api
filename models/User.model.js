@@ -1,22 +1,27 @@
+const mongoose = require("mongoose");
 const { Schema, model } = require("mongoose");
+const ObjectId = Schema.Types.ObjectId;
 
 const userSchema = new Schema(
   {
-    email: {
-      type: String,
-      unique: true,
-    },
     username: {
       type: String,
       unique: true,
     },
     password: String,
+    email: {
+      type: String,
+      unique: true,
+    },
 
-    // follows: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Company",
-    // },
+    companyname: {
+      type: String,
+    },
+    companydata: { type: ObjectId, ref: "Company" },
+    follows: [{ type: ObjectId, ref: "Company" }],
+    workswith: [{ type: ObjectId, ref: "Company" }],
   },
+
   {
     timestamps: true,
   }

@@ -13,10 +13,9 @@ router.post("/", isLoggedIn, (req, res) => {
         return res.status(400).json({ errorMessage: "Comp already in db" });
       }
 
-      const { name, url, email, adress, size, description } = req.body;
+      const { url, email, adress, size, description } = req.body;
 
       Company.create({
-        name,
         url,
         email,
         adress,

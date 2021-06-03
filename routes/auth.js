@@ -35,7 +35,7 @@ router.get("/session", (req, res) => {
 });
 
 router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email, companyname } = req.body;
   console.log(req.body);
 
   if (!username) {
@@ -83,9 +83,15 @@ router.post("/signup", isLoggedOut, (req, res) => {
           username,
           password: hashedPassword,
           email,
+          companyname,
+          // companydata,
+          // follows,
+          // workswith,
         });
       })
       .then((user) => {
+        console.log("user", user);
+
         Session.create({
           user: user._id,
           createdAt: Date.now(),
@@ -125,6 +131,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Search the database for a user with the email submitted in the form
   User.findOne({ email })
+    .populate("user")
     .then((user) => {
       // If the user isn't found, send the message that user provided wrong credentials
       if (!user) {
@@ -138,6 +145,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         }
         Session.create({ user: user._id, createdAt: Date.now() }).then(
           (session) => {
+            console.log("user", user);
             return res.json({ user, accessToken: session._id });
           }
         );

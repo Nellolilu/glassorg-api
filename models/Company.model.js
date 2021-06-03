@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
 // const SIZE_ENUM = require("../utils/size-enum");
-
 const { Schema, model } = mongoose;
+const ObjectId = Schema.Types.ObjectId;
 
 const companySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
   url: {
     type: String,
     required: true,
@@ -26,7 +22,7 @@ const companySchema = new Schema({
     type: String,
     // enum: SIZE_ENUM,
   },
-  branch: { type: mongoose.Schema.Types.ObjectId, ref: "Branch" },
+  branch: { type: ObjectId, ref: "Branch" },
 
   description: {
     type: String,
@@ -40,11 +36,9 @@ const companySchema = new Schema({
       "https://res.cloudinary.com/dlfxinw9v/image/upload/v1616837651/event_image_npqdmv.png",
   },
 
-  answers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answer" }],
+  answers: [{ type: ObjectId, ref: "Answer" }],
 
-  workswith: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
-
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  // owner: { type: ObjectId, ref: "User" },
 });
 
 const Company = model("Company", companySchema);

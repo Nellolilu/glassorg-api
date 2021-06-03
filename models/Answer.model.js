@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-
 const { Schema, model } = mongoose;
+const ObjectId = Schema.Types.ObjectId;
 
 const answerSchema = new Schema({
   // BLOCK 1
-  question1: { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+  question1: { type: ObjectId, ref: "Question" },
   answer1: {
     type: String,
     max: 100,
@@ -13,7 +13,7 @@ const answerSchema = new Schema({
     type: String,
   },
   // BLOCK 2
-  question2: { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+  question2: { type: ObjectId, ref: "Question" },
   answer2: {
     type: String,
     max: 100,
@@ -22,7 +22,7 @@ const answerSchema = new Schema({
     type: String,
   },
   // BLOCK 3
-  question3: { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+  question3: { type: ObjectId, ref: "Question" },
   answer3: {
     type: String,
     max: 100,
@@ -31,7 +31,7 @@ const answerSchema = new Schema({
     type: String,
   },
   // BLOCK 4
-  question4: { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+  question4: { type: ObjectId, ref: "Question" },
   answer4: {
     type: String,
     max: 100,
@@ -40,7 +40,7 @@ const answerSchema = new Schema({
     type: String,
   },
   // BLOCK 5
-  question5: { type: mongoose.Schema.Types.ObjectId, ref: "Question" },
+  question5: { type: ObjectId, ref: "Question" },
   answer5: {
     type: String,
     max: 100,
