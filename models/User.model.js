@@ -11,6 +11,11 @@ const userSchema = new Schema(
       unique: true,
     },
     password: String,
+
+    // follows: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Company",
+    // },
   },
   {
     timestamps: true,
