@@ -49,12 +49,3 @@ const companySchema = new Schema({
 const Company = model("Company", companySchema);
 
 module.exports = Company;
-
-// NO NEED
-// branch: {
-//   type: String,
-//   required: true,
-//   enum: BRANCH_ENUM,
-// },
-// answers: { type: Number, default: 0 },
-// proofed: { type: Number, default: 0 },

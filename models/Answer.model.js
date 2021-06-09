@@ -7,7 +7,7 @@ const answerSchema = new Schema({
   question: { type: ObjectId, ref: "Question" },
   answer: {
     type: String,
-    max: 100,
+    maxLength: 100,
   },
   proof: {
     type: String,

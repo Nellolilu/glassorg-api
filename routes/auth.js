@@ -72,6 +72,12 @@ router.post("/signup", isLoggedOut, (req, res) => {
     if (found) {
       return res.status(400).json({ errorMessage: "Username already taken." });
     }
+  });
+  User.findOne({ email }).then((found) => {
+    // If the email is found, send the message email is taken
+    if (found) {
+      return res.status(400).json({ errorMessage: "Email already taken." });
+    }
 
     // if user is not found, create a new user - start with hashing the password
     return bcrypt
@@ -83,10 +89,6 @@ router.post("/signup", isLoggedOut, (req, res) => {
           username,
           password: hashedPassword,
           email,
-          companyname,
-          // companydata,
-          // follows,
-          // workswith,
         });
       })
       .then((user) => {
@@ -123,7 +125,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Here we use the same logic as above
   // - either length based parameters or we check the strength of a password
-  if (password.length < 6) {
+  if (password.length < 8) {
     return res.status(400).json({
       errorMessage: "Your password needs to be at least 8 characters long.",
     });

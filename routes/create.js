@@ -6,8 +6,7 @@ const Question = require("../models/Question.model");
 const SIZE_ENUM = require("../utils/size-enum");
 const Answer = require("../models/Answer.model");
 
-router.get("/", (req, res) => {
-  // ISLOGGEDIN DOESNT WORK HERE
+router.get("/", isLoggedIn, (req, res) => {
   Branch.find({}).then((allBranches) => {
     Question.find({}).then((allQuestions) => {
       res.json({ allBranches, allQuestions, size: SIZE_ENUM });
@@ -15,14 +14,27 @@ router.get("/", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
   Company.findOne({ url: req.body.url })
-    .then((singleCompany) => {
+    .then(async (singleCompany) => {
       if (singleCompany) {
-        return res.status(400).json({ errorMessage: "Comp already in db" });
+        return res.status(400).json({ errorMessage: "Comp already exists" });
       }
 
-      const {
+      const { name, url, email, adress, size, branch, description } = req.body;
+
+      const questionsAndAnswers = Object.entries(req.body.questionsAndAnswers);
+      console.log("q&a", questionsAndAnswers);
+      const createAnswers = questionsAndAnswers.map(([questionId, answer]) => {
+        if (answer.length > 100) {
+          return Promise.resolve(true);
+        }
+        return Answer.create({ question: questionId, answer });
+      });
+
+      const answeredQuestions = await Promise.all(createAnswers);
+      const answerIds = answeredQuestions.map((e) => e._id);
+      const newCompany = await Company.create({
         name,
         url,
         email,
@@ -30,39 +42,12 @@ router.post("/", (req, res) => {
         size,
         branch,
         description,
-        answer,
-        question,
-      } = req.body;
-
-      // TURN BACK BRANCH INTO ID
-      let branchToFind = branch;
-      Branch.findOne({ branch: { $eq: branchToFind } }).then((foundBranch) => {
-        branchToFind = foundBranch._Id;
+        owner: req.user._id,
+        answers: answerIds,
       });
 
-      Company.create({
-        name,
-        url,
-        email,
-        adress,
-        size,
-        branchToFind,
-        description,
-      })
-        .then((createdCompany) => {
-          Question.findById(questionToFind).then((questionInfo) => {
-            Answer.create({
-              ...answer,
-              question: questionInfo._id,
-            }).then((createdAnswer) => {
-              res.json({ company: createdCompany });
-            });
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.json(500).json({ errorMessage: err.message });
-        });
+      console.log("HERE: ", newCompany);
+      return res.json(true);
     })
     .catch((err) => {
       console.log(err);
