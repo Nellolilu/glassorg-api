@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
-// const SIZE_ENUM = require("../utils/size-enum");
+const SIZE_ENUM = require("../utils/size-enum");
 const { Schema, model } = mongoose;
 const ObjectId = Schema.Types.ObjectId;
 
 const companySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   url: {
     type: String,
     required: true,
@@ -37,8 +42,8 @@ const companySchema = new Schema({
   },
 
   answers: [{ type: ObjectId, ref: "Answer" }],
-
-  // owner: { type: ObjectId, ref: "User" },
+  owner: { type: ObjectId, ref: "User" },
+  // workswith: [{ type: ObjectId, ref: "Company" }],
 });
 
 const Company = model("Company", companySchema);

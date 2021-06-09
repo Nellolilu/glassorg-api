@@ -14,12 +14,7 @@ const userSchema = new Schema(
       unique: true,
     },
 
-    companyname: {
-      type: String,
-    },
-    companydata: { type: ObjectId, ref: "Company" },
     follows: [{ type: ObjectId, ref: "Company" }],
-    workswith: [{ type: ObjectId, ref: "Company" }],
   },
 
   {
