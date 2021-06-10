@@ -2,8 +2,7 @@ const router = require("express").Router();
 const authRoutes = require("./auth");
 const profileRoutes = require("./profile");
 const createRouter = require("./create");
-// const Branch = require("../models/Branch.model");
-const Question = require("../models/Question.model");
+const companyRouter = require("./company");
 
 /* GET home page */
 router.get("/", (req, res, next) => {
@@ -13,5 +12,6 @@ router.get("/", (req, res, next) => {
 router.use("/auth", authRoutes);
 router.use("/profile", profileRoutes);
 router.use("/create-company", createRouter);
+router.use("/company", companyRouter);
 
 module.exports = router;
