@@ -37,7 +37,6 @@ router.post("/", isLoggedIn, (req, res) => {
       const answerIds = answeredQuestions.map((e) => e._id);
       const newCompany = await Company.create({
         name,
-        logo,
         url,
         email,
         adress,
@@ -49,7 +48,7 @@ router.post("/", isLoggedIn, (req, res) => {
       });
 
       console.log("HERE: ", newCompany);
-      return res.json(true);
+      return res.json({ company: newCompany });
     })
     .catch((err) => {
       console.log(err);

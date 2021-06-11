@@ -25,9 +25,21 @@ const parser = multer({ storage });
 
 router.get("/:dynamic", (req, res) => {
   const companyId = req.params.dynamic;
-  Company.findById(companyId).then((oneCompany) => {
-    res.json({ oneCompany });
-  });
+  Company.findById(companyId)
+    .populate("branch")
+    .populate("answers")
+    .populate({
+      path: "answers",
+      populate: {
+        path: "question",
+      },
+    })
+
+    // .populate("answers")
+    .then((oneCompany) => {
+      console.log("found this:", oneCompany);
+      res.json({ oneCompany });
+    });
 });
 
 router.post(
