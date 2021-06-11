@@ -34,7 +34,7 @@ const companySchema = new Schema({
     max: 300,
   },
 
-  logo: {
+  image: {
     type: String,
     default:
       // TO CHANGE!

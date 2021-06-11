@@ -6,26 +6,6 @@ const Question = require("../models/Question.model");
 const SIZE_ENUM = require("../utils/size-enum");
 const Answer = require("../models/Answer.model");
 
-// CLOUDINARY SETUP
-
-const multer = require("multer");
-const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "Project-3",
-    // DONT NEED
-    // format: async (req, file) => "png", // supports promises as well
-    // public_id: (req, file) => "computed-filename-using-request",
-  },
-});
-
-const parser = multer({ storage });
-
-// const parser = multer
-
 router.get("/", isLoggedIn, (req, res) => {
   Branch.find({}).then((allBranches) => {
     Question.find({}).then((allQuestions) => {
@@ -34,18 +14,18 @@ router.get("/", isLoggedIn, (req, res) => {
   });
 });
 
-router.post("/", isLoggedIn, parser.single("logo"), (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
   Company.findOne({ url: req.body.url })
     .then(async (singleCompany) => {
       if (singleCompany) {
         return res.status(400).json({ errorMessage: "Comp already exists" });
       }
-
-      const { name, logo, url, email, adress, size, branch, description } =
-        req.body;
+      const { name, url, email, adress, size, branch, description } = req.body;
+      console.log(req.body);
 
       const questionsAndAnswers = Object.entries(req.body.questionsAndAnswers);
       console.log("q&a", questionsAndAnswers);
+
       const createAnswers = questionsAndAnswers.map(([questionId, answer]) => {
         if (answer.length > 100) {
           return Promise.resolve(true);
