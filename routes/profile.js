@@ -83,6 +83,7 @@ router.put("/change-password", isLoggedIn, (req, res) => {
         })
         .then((updatedUser) => {
           console.log("user", updatedUser);
+          return res.json({ status: true });
         });
     })
     .catch((err) => {
