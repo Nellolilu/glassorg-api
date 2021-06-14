@@ -1,4 +1,5 @@
 const Company = require("../models/Company.model");
+const Answer = require("../models/Answer.model");
 const router = require("express").Router();
 const isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -56,6 +57,22 @@ router.post(
         console.log("you updated the company", oneCompany);
         res.json({ newImage: image });
         // sending image back to front
+      }
+    );
+  }
+);
+
+router.post(
+  "/:dynamic/proof-upload",
+  isLoggedIn,
+  parser.single("proof"),
+  (req, res) => {
+    const questionId = req.body.oneQAId;
+    const proof = req.file.path;
+    Answer.findByIdAndUpdate(questionId, { proof }, { new: true }).then(
+      (oneAnswer) => {
+        console.log("created this", oneAnswer);
+        res.json({ newImage: proof });
       }
     );
   }
