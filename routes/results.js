@@ -11,9 +11,9 @@ router.get("/", (req, res) => {
       res.json({ allCompanies });
     })
     .catch((err) => {
-      console.log("err:", err);
-      console.log("DOESNT EXIST ?! - GO HOME AND TRY AGAIN");
-      res.redirect("/");
+      // console.log("err:", err);
+      // console.log("DOESNT EXIST ?! - GO HOME AND TRY AGAIN");
+      // res.redirect("/");
     });
 });
 
