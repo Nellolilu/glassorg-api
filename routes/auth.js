@@ -26,6 +26,12 @@ router.get("/session", (req, res) => {
 
   Session.findById(accessToken)
     .populate("user")
+    .populate({
+      path: "user",
+      populate: {
+        path: "follows",
+      },
+    })
     .then((session) => {
       if (!session) {
         return res.status(404).json({ errorMessage: "Session does not exist" });

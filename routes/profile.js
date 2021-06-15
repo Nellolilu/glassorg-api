@@ -9,9 +9,15 @@ const Company = require("../models/Company.model");
 // GETTING PROFILE
 router.get("/", isLoggedIn, (req, res) => {
   console.log("req.user", req.user);
+  // TRIED TO USE THIS FOR REFRESH OF USERS FOLLOWS
+  // User.findById(req.user._id)
+  //   .populate("follows")
+  //   .then((followedCompanies) => {
   Company.find({ owner: { $eq: `${req.user._id}` } }).then((ownedCompanies) => {
+    // res.json({ ownedCompanies, followedCompanies });
     res.json({ ownedCompanies });
   });
+  // });
 });
 
 // UPDATE USER

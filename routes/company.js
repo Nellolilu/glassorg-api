@@ -88,20 +88,52 @@ router.post("/:dynamic/remember", isLoggedIn, (req, res) => {
         // SEND ERRORMESSAGE
       }
       console.log("wanna remember this:", foundCompany);
-      User.findById(userId)
-        .then((foundUser) => {
-          console.log("are you this?", foundUser);
-          //CHECK IF OWNER ; IF ALREADY FOLLOWING
-          User.findByIdAndUpdate(
-            userId,
-            { $addToSet: { follows: companyId } },
-            { new: true }
-          ).populate("follows");
-        })
-        .then((updatedUser) => {
-          console.log("see if you remember:", updatedUser);
-          res.json({ user: updatedUser });
-        });
+      User.findById(userId).then((foundUser) => {
+        console.log("are you this?", foundUser);
+        //CHECK IF OWNER ; IF ALREADY FOLLOWING
+        User.findByIdAndUpdate(
+          userId,
+          { $addToSet: { follows: companyId } },
+          { new: true }
+        )
+          // .populate("follows")
+          .then((updatedUser) => {
+            console.log("see if you remember:", updatedUser);
+            res.json({ user: updatedUser });
+          });
+      });
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).json({ errorMessage: "I don't know. Do you?" });
+    });
+});
+
+router.post("/:dynamic/dont-remember", isLoggedIn, (req, res) => {
+  const companyId = req.params.dynamic;
+  const userId = req.user._id;
+
+  Company.findById(companyId)
+    .then((foundCompany) => {
+      if (!foundCompany) {
+        console.log("no company");
+        // SEND ERRORMESSAGE
+      }
+      console.log("wanna  dont remember this:", foundCompany);
+      User.findById(userId).then((foundUser) => {
+        console.log("are you this?", foundUser);
+        //CHECK IF OWNER ; IF ALREADY FOLLOWING
+        User.findByIdAndUpdate(
+          userId,
+          { $pull: { follows: companyId } },
+          { new: true }
+        )
+          // .populate("follows")
+          .then((updatedUser) => {
+            console.log("see if you dont remember:", updatedUser);
+            res.json({ user: updatedUser });
+          });
+      });
     })
     .catch((err) => {
       console.error(err.message);
