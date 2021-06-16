@@ -1,6 +1,7 @@
 const Company = require("../models/Company.model");
 const Answer = require("../models/Answer.model");
 const User = require("../models/User.model");
+const Rating = require("../models/Rating.model");
 const router = require("express").Router();
 const isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -9,6 +10,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { findByIdAndUpdate } = require("../models/Company.model");
 
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -36,6 +38,7 @@ router.get("/:dynamic", (req, res) => {
         path: "question",
       },
     })
+    .populate("ratings")
     .then((oneCompany) => {
       console.log("found this:", oneCompany);
       res.json({ oneCompany });
@@ -109,7 +112,7 @@ router.post("/:dynamic/remember", isLoggedIn, (req, res) => {
     });
 });
 
-router.post("/:dynamic/dont-remember", isLoggedIn, (req, res) => {
+router.post("/:dynamic/dont-remember", (req, res) => {
   const companyId = req.params.dynamic;
   const userId = req.user._id;
 
@@ -139,6 +142,33 @@ router.post("/:dynamic/dont-remember", isLoggedIn, (req, res) => {
       console.error(err.message);
       res.status(500).json({ errorMessage: "I don't know. Do you?" });
     });
+});
+
+router.put("/:dynamic/rate", isLoggedIn, (req, res) => {
+  const companyId = req.params.dynamic;
+  // Company.findById(companyId)
+  //   .then((foundCompany) => {
+  //     console.log("you will update this Company", foundCompany);
+  const { name, comment, rating, date, user } = req.body;
+  console.log(req.body);
+  Rating.create({
+    name,
+    comment,
+    rating,
+    date,
+    owner: user,
+  }).then((createdRating) => {
+    console.log("new", createdRating);
+    Company.findByIdAndUpdate(
+      companyId,
+      { $addToSet: { ratings: createdRating._id } },
+      { new: true }
+    )
+      .populate("ratings")
+      .then((updatedCompany) => {
+        res.json({ company: updatedCompany });
+      });
+  });
 });
 
 module.exports = router;

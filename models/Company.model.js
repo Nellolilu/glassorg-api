@@ -31,7 +31,7 @@ const companySchema = new Schema({
 
   description: {
     type: String,
-    max: 300,
+    maxLength: 100,
   },
 
   image: {
@@ -43,6 +43,7 @@ const companySchema = new Schema({
 
   answers: [{ type: ObjectId, ref: "Answer" }],
   owner: { type: ObjectId, ref: "User" },
+  ratings: [{ type: ObjectId, ref: "Rating" }],
   // workswith: [{ type: ObjectId, ref: "Company" }],
 });
 
