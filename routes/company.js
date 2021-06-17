@@ -112,9 +112,10 @@ router.post("/:dynamic/remember", isLoggedIn, (req, res) => {
     });
 });
 
-router.post("/:dynamic/dont-remember", (req, res) => {
+router.post("/:dynamic/dont-remember", isLoggedIn, (req, res) => {
   const companyId = req.params.dynamic;
   const userId = req.user._id;
+  console.log("req.user", req.user);
 
   Company.findById(companyId)
     .then((foundCompany) => {
