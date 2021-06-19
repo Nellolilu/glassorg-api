@@ -64,17 +64,48 @@ router.post(
   }
 );
 
+// router.post(
+//   "/:dynamic/proof-upload",
+//   isLoggedIn,
+//   parser.single("proof"),
+//   (req, res) => {
+//     const questionId = req.body.oneQAId;
+//     const proof = req.file.path;
+//     Answer.findByIdAndUpdate(questionId, { proof }, { new: true }).then(
+//       (oneAnswer) => {
+//         console.log("created this", oneAnswer);
+//         res.json({ newImage: proof });
+//       }
+//     );
+//   }
+// );
+
 router.post(
   "/:dynamic/proof-upload",
   isLoggedIn,
   parser.single("proof"),
   (req, res) => {
+    const companyId = req.params.dynamic;
+    console.log(companyId);
     const questionId = req.body.oneQAId;
     const proof = req.file.path;
     Answer.findByIdAndUpdate(questionId, { proof }, { new: true }).then(
       (oneAnswer) => {
         console.log("created this", oneAnswer);
-        res.json({ newImage: proof });
+        Company.findById(companyId)
+          .populate("branch")
+          .populate("answers")
+          .populate({
+            path: "answers",
+            populate: {
+              path: "question",
+            },
+          })
+          .populate("ratings")
+          .then((updatedCompany) => {
+            console.log("updated", updatedCompany);
+            res.json({ company: updatedCompany });
+          });
       }
     );
   }
@@ -99,7 +130,7 @@ router.post("/:dynamic/remember", isLoggedIn, (req, res) => {
           { $addToSet: { follows: companyId } },
           { new: true }
         )
-          // .populate("follows")
+          .populate("follows")
           .then((updatedUser) => {
             console.log("see if you remember:", updatedUser);
             res.json({ user: updatedUser });
@@ -132,7 +163,7 @@ router.post("/:dynamic/dont-remember", isLoggedIn, (req, res) => {
           { $pull: { follows: companyId } },
           { new: true }
         )
-          // .populate("follows")
+          .populate("follows")
           .then((updatedUser) => {
             console.log("see if you dont remember:", updatedUser);
             res.json({ user: updatedUser });

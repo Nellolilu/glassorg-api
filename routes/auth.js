@@ -33,6 +33,8 @@ router.get("/session", (req, res) => {
       },
     })
     .then((session) => {
+      console.log("SESSION: ", session);
+
       if (!session) {
         return res.status(404).json({ errorMessage: "Session does not exist" });
       }
@@ -139,7 +141,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Search the database for a user with the email submitted in the form
   User.findOne({ email })
-    .populate("user")
+    .populate("follows")
     .then((user) => {
       // If the user isn't found, send the message that user provided wrong credentials
       if (!user) {
@@ -153,7 +155,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         }
         Session.create({ user: user._id, createdAt: Date.now() }).then(
           (session) => {
-            console.log("user", user);
+            console.log("user FROM DB", user);
             return res.json({ user, accessToken: session._id });
           }
         );
