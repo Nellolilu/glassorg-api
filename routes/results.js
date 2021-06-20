@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
     .populate("answers")
     .populate({ path: "answers", populate: { path: "questions" } })
     .then((allCompanies) => {
+      console.log("allcomp", allCompanies);
       res.json({ allCompanies });
     })
     .catch((err) => {
