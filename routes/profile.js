@@ -13,10 +13,12 @@ router.get("/", isLoggedIn, (req, res) => {
   // User.findById(req.user._id)
   //   .populate("follows")
   //   .then((followedCompanies) => {
-  Company.find({ owner: { $eq: `${req.user._id}` } }).then((ownedCompanies) => {
-    // res.json({ ownedCompanies, followedCompanies });
-    res.json({ ownedCompanies });
-  });
+  Company.find({ owner: { $eq: `${req.user._id}` } })
+    .populate("workswith")
+    .then((ownedCompanies) => {
+      // res.json({ ownedCompanies, followedCompanies });
+      res.json({ ownedCompanies });
+    });
   // });
 });
 

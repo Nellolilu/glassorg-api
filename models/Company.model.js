@@ -41,6 +41,13 @@ const companySchema = new Schema({
       "https://res.cloudinary.com/dlfxinw9v/image/upload/v1616837651/event_image_npqdmv.png",
   },
 
+  bgImage: {
+    type: String,
+    default:
+      // TO CHANGE!
+      "      https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
+  },
+
   answers: [{ type: ObjectId, ref: "Answer" }],
   owner: { type: ObjectId, ref: "User" },
   ratings: [{ type: ObjectId, ref: "Rating" }],

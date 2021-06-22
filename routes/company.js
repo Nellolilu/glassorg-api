@@ -65,22 +65,25 @@ router.post(
   }
 );
 
-// router.post(
-//   "/:dynamic/proof-upload",
-//   isLoggedIn,
-//   parser.single("proof"),
-//   (req, res) => {
-//     const questionId = req.body.oneQAId;
-//     const proof = req.file.path;
-//     Answer.findByIdAndUpdate(questionId, { proof }, { new: true }).then(
-//       (oneAnswer) => {
-//         console.log("created this", oneAnswer);
-//         res.json({ newImage: proof });
-//       }
-//     );
-//   }
-// );
-
+// DOUBLED CAUSE LACK OF TIME
+router.post(
+  "/:dynamic/bg-image-upload",
+  isLoggedIn,
+  parser.single("bgImage"),
+  (req, res) => {
+    console.log(req.params.dynamic);
+    const companyId = req.params.dynamic;
+    console.log(req);
+    const bgImage = req.file.path;
+    Company.findByIdAndUpdate(companyId, { bgImage }, { new: true }).then(
+      (oneCompany) => {
+        console.log("you updated the company", oneCompany);
+        res.json({ newImage: bgImage });
+        // sending image back to front
+      }
+    );
+  }
+);
 router.post(
   "/:dynamic/proof-upload",
   isLoggedIn,
@@ -270,6 +273,22 @@ router.put("/:dynamic/rate", isLoggedIn, (req, res) => {
         res.json({ company: updatedCompany });
       });
   });
+});
+
+router.post("/:dynamic/delete", isLoggedIn, (req, res) => {
+  const companyId = req.params.dynamic;
+  Company.findByIdAndDelete(companyId)
+    // .then(()=> {
+    //FIND ALL USERS
+    // User.findByIdAndUpdate(thisCompany.owner._id, {
+    //   $pull: { listings: thisCompany._id },
+    // }).then
+    //   // PULL FROM WORKSWITH
+    // // PULL FROM FOLLOWS
+    // })
+    .then(() => {
+      res.json(true);
+    });
 });
 
 module.exports = router;
