@@ -44,7 +44,7 @@ const companySchema = new Schema({
   answers: [{ type: ObjectId, ref: "Answer" }],
   owner: { type: ObjectId, ref: "User" },
   ratings: [{ type: ObjectId, ref: "Rating" }],
-  // workswith: [{ type: ObjectId, ref: "Company" }],
+  workswith: [{ type: ObjectId, ref: "Company" }],
 });
 
 const Company = model("Company", companySchema);

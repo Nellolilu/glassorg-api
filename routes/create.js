@@ -45,6 +45,7 @@ router.post("/", isLoggedIn, (req, res) => {
         description,
         owner: req.user._id,
         answers: answerIds,
+        workswith: [],
       });
 
       console.log("HERE: ", newCompany);

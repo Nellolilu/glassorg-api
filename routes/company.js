@@ -10,7 +10,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const { findByIdAndUpdate } = require("../models/Company.model");
+const { findByIdAndUpdate, updateMany } = require("../models/Company.model");
 
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -32,6 +32,7 @@ router.get("/:dynamic", (req, res) => {
   Company.findById(companyId)
     .populate("branch")
     .populate("answers")
+    .populate("workswith")
     .populate({
       path: "answers",
       populate: {
@@ -110,6 +111,74 @@ router.post(
     );
   }
 );
+
+// WORKCHAIN GET
+router.get("/:dynamic/workchain", isLoggedIn, (req, res) => {
+  const companyId = req.params.dynamic;
+  console.log("id", companyId);
+  const userId = req.user._id;
+  console.log("req.user._id", req.user._id);
+  Company.findById(companyId).then((foundCompany) => {
+    if (!foundCompany) {
+      console.log("no such company");
+    }
+    console.log("this is the comp", foundCompany);
+    Company.find({ owner: userId })
+      .populate("workswith")
+      // .toArray()
+      .then((myCompanys) => {
+        console.log("this are mine", myCompanys);
+        res.json({ myCompanys });
+      });
+  });
+});
+
+// // PUT IN CHAIN
+router.post("/:dynamic/workchain/put", isLoggedIn, (req, res) => {
+  const companyId = req.params.dynamic;
+  const userId = req.user._id;
+
+  Company.updateMany(
+    { owner: { $eq: `${req.user._id}` } },
+    { $addToSet: { workswith: companyId } },
+    { new: true }
+  )
+    .then((response) => {
+      Company.find({ owner: userId })
+        .populate("workswith")
+        .then((myCompanys) => {
+          console.log("this are mine", myCompanys);
+          res.json({ myCompanys });
+        });
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).json({ errorMessage: "I don't know. Do you?" });
+    });
+});
+
+// // DELETE IN CHAIN
+router.post("/:dynamic/workchain/delete", isLoggedIn, (req, res) => {
+  const companyId = req.params.dynamic;
+  const userId = req.user._id;
+  Company.updateMany(
+    { owner: { $eq: `${req.user._id}` } },
+    { $pull: { workswith: companyId } },
+    { new: true }
+  )
+    .then((mufasa) => {
+      Company.find({ owner: userId })
+        .populate("workswith")
+        .then((myCompanys) => {
+          console.log("this are the workswith", myCompanys);
+          res.json({ myCompanys });
+        });
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).json({ errorMessage: "I don't know. Do you?" });
+    });
+});
 
 router.post("/:dynamic/remember", isLoggedIn, (req, res) => {
   const companyId = req.params.dynamic;
