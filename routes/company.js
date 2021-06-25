@@ -275,11 +275,11 @@ router.put("/:dynamic/rate", isLoggedIn, (req, res) => {
   });
 });
 
-router.post("/:dynamic/delete", isLoggedIn, (req, res) => {
+router.post("/:dynamic/delete", (req, res) => {
   const companyId = req.params.dynamic;
   Company.findByIdAndDelete(companyId)
     // .then(()=> {
-    //FIND ALL USERS
+    // FIND ALL USERS
     // User.findByIdAndUpdate(thisCompany.owner._id, {
     //   $pull: { listings: thisCompany._id },
     // }).then
