@@ -8,8 +8,8 @@ const questionsArr = [
   {
     branch: "Sales",
     question:
-      "SALES QUESTIONSdo you have more male or more female positions in leading roles of your business?",
-    placeholder: "male / female / equal",
+      "do you check on the social, economical and ecological behaviour of your suppliers?",
+    placeholder: "yes, we can even prove that / no",
     order: 1,
   },
   {
@@ -28,13 +28,13 @@ const questionsArr = [
   {
     branch: "Sales",
     question:
-      "what percentage of the CO2 your business produces are you compensating?",
+      "what percentage of the CO² your business produces are you compensating?",
     placeholder: "some %",
     order: 4,
   },
   {
     branch: "Sales",
-    question: "Is there anything else, you would like to share?",
+    question: "is there anything else, you would like to share?",
     placeholder: "type your statement here",
     order: 5,
   },

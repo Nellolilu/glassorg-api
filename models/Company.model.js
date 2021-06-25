@@ -38,14 +38,14 @@ const companySchema = new Schema({
     type: String,
     default:
       // TO CHANGE!
-      "https://res.cloudinary.com/dlfxinw9v/image/upload/v1616837651/event_image_npqdmv.png",
+      "https://res.cloudinary.com/dk9vuaejm/image/upload/v1624632847/Project-3/logo-b_bgp8ja.png",
   },
 
   bgImage: {
     type: String,
     default:
       // TO CHANGE!
-      "      https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
+      "https://res.cloudinary.com/dk9vuaejm/image/upload/v1624632524/Project-3/nathan-dumlao-Ny0Lt7hLSJ0-unsplash_o2ktgs.jpg",
   },
 
   answers: [{ type: ObjectId, ref: "Answer" }],

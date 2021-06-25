@@ -12,27 +12,26 @@ const questionsArr = [
   },
   {
     branch: "Service",
-    question:
-      "do you pay taxes on your product/service where your costumer is based?",
+    question: "is your company running completely on renewable energy?",
     placeholder: "yes / no / some %",
     order: 2,
   },
   {
     branch: "Service",
-    question: "is your company running completely on renewable energy?",
-    placeholder: "yes / no / some %",
+    question: "which bank are you working with to handle your company's sales?",
+    placeholder: "bank's name",
     order: 3,
   },
   {
     branch: "Service",
     question:
-      "what percentage of the CO2 your business produces are you compensating?",
+      "what percentage of the CO² your business produces are you compensating?",
     placeholder: "some %",
     order: 4,
   },
   {
     branch: "Service",
-    question: "Is there anything else, you would like to share?",
+    question: "is there anything else, you would like to share?",
     placeholder: "type your statement here",
     order: 5,
   },

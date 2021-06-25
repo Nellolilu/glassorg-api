@@ -5,16 +5,15 @@ const Branch = require("../models/Branch.model");
 const questionsArr = [
   {
     branch: "Food",
-    question:
-      "FOOD QUESTION do you have more male or more female positions in leading roles of your business?",
-    placeholder: "male / female / equal",
+    question: "do your employees have the right to join a union?",
+    placeholder: "yes / no",
     order: 1,
   },
   {
     branch: "Food",
     question:
-      "do you pay taxes on your product/Food where your costumer is based?",
-    placeholder: "yes / no / some %",
+      "what percentage of the trash produced by running your business is seperated at least into the four recycling options: glass, paper, organic waste and plastic?",
+    placeholder: " some %",
     order: 2,
   },
   {
@@ -26,13 +25,13 @@ const questionsArr = [
   {
     branch: "Food",
     question:
-      "what percentage of the CO2 your business produces are you compensating?",
+      "is your packaging already plastic free? What percentage of alternative materials do you use?",
     placeholder: "some %",
     order: 4,
   },
   {
     branch: "Food",
-    question: "Is there anything else, you would like to share?",
+    question: "is there anything else, you would like to share?",
     placeholder: "type your statement here",
     order: 5,
   },

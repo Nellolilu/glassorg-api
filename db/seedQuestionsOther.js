@@ -6,14 +6,14 @@ const questionsArr = [
   {
     branch: "Other",
     question:
-      "Other QUESTIONSdo you have more male or more female positions in leading roles of your business?",
+      "do you have more male or more female positions in leading roles of your business?",
     placeholder: "male / female / equal",
     order: 1,
   },
   {
     branch: "Other",
     question:
-      "do you pay taxes on your product/Other where your costumer is based?",
+      "do you pay taxes on your product/production where your costumer is based?",
     placeholder: "yes / no / some %",
     order: 2,
   },
@@ -26,13 +26,13 @@ const questionsArr = [
   {
     branch: "Other",
     question:
-      "what percentage of the CO2 your business produces are you compensating?",
+      "what percentage of the CO² your business produces are you compensating?",
     placeholder: "some %",
     order: 4,
   },
   {
     branch: "Other",
-    question: "Is there anything else, you would like to share?",
+    question: "is there anything else, you would like to share?",
     placeholder: "type your statement here",
     order: 5,
   },
