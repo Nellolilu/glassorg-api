@@ -6,6 +6,7 @@ router.get("/", (req, res) => {
   Company.find({ name: { $regex: companyName } })
     .populate("branch")
     .populate("answers")
+    .populate("ratings")
     .populate({ path: "answers", populate: { path: "questions" } })
     .then((allCompanies) => {
       console.log("allcomp", allCompanies);

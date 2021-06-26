@@ -15,6 +15,7 @@ router.get("/", isLoggedIn, (req, res) => {
   //   .then((followedCompanies) => {
   Company.find({ owner: { $eq: `${req.user._id}` } })
     .populate("workswith")
+    .populate("ratings")
     .then((ownedCompanies) => {
       // res.json({ ownedCompanies, followedCompanies });
       res.json({ ownedCompanies });
