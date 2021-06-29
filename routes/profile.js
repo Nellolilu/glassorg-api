@@ -17,6 +17,7 @@ router.get("/", isLoggedIn, (req, res) => {
     .populate("workswith")
     .populate("ratings")
     .then((ownedCompanies) => {
+      console.log(ownedCompanies[0]);
       // res.json({ ownedCompanies, followedCompanies });
       res.json({ ownedCompanies });
     });
